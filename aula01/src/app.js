@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const app = express()
 const router = express.Router()
 
-mongoose.connect('mongodb+srv://flaviotest:galao01@flaviotest.zxrwz.mongodb.net/flaviotest?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://flaviotest:@flaviotest.zxrwz.mongodb.net/?retryWrites=true&w=majority')
 
 // carregar models
 // const Product = require('./models/product')
