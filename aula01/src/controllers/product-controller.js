@@ -1,13 +1,9 @@
-const { Mongoose } = require("mongoose");
-
-const mongoose = require('mongoose')
 const Product = require('..//models/product')
+const productRepository = require('../repositories/product-repository')
 
 exports.get = (req, res, next) => {
-    Product
-        .find({
-            active:true
-        }, 'title price slug')
+    productRepository
+        .get()
         .then(response => {
             res.status(200).send({
                 message: 'lista',
@@ -17,12 +13,13 @@ exports.get = (req, res, next) => {
             res.status(400).send({ message: 'Error', data: e.toString() })
         })
 };
+
 exports.getById = (req, res, next) => {
-    Product
-        .findById(req.params.id)
+    productRepository
+        .getById(req.params.id)
         .then(response => {
             res.status(200).send({
-                message: 'lista',
+                message: 'lista by id',
                 data: response
             })
         }).catch(e => {
@@ -31,11 +28,21 @@ exports.getById = (req, res, next) => {
 };
 
 exports.getBySlug = (req, res, next) => {
-    Product
-        .findOne({ //first
-            slug: req.params.slug,
-            active: true
-        }, 'title description price slug tags')
+    productRepository
+        .getBySlug(req.params.slug)
+        .then(response => {
+            res.status(200).send({
+                message: 'lista',
+                data: response
+            })
+        }).catch(e => {
+            res.status(400).send({ message: 'Error', data: e.toString() })
+        })
+};
+
+exports.getByTag = (req, res, next) => {
+    productRepository
+        .getByTag(req.params.tag)
         .then(response => {
             res.status(200).send({
                 message: 'lista',
@@ -47,22 +54,43 @@ exports.getBySlug = (req, res, next) => {
 };
 
 exports.post = (req, res, next) => {
-    var product = new Product(req.body)
-    product.save().then(response => {
-        res.status(201).send({
-            message: 'success'
+    productRepository.create(req.body)
+        .then(response => {
+            res.status(201).send({
+                message: 'success'
+            })
+        }).catch(e => {
+            res.status(400).send({ message: 'Error', data: e.toString() })
         })
-    }).catch(e => {
-        res.status(400).send({ message: 'Error', data: e.toString() })
-    })
 };
 
 exports.put = (req, res, next) => {
-    const id = req.params.id
-    res.status(200).send(req.body);
+    productRepository
+        .update(req.params.test, req.body)
+        .then(x => {
+            res.status(201).send({
+                message: 'Produto atualizado com sucesso'
+            })
+        })
+        .catch(e => {
+            res.status(400).send({
+                message: 'Ops, deu ruim' + e.toString()
+            })
+        });
 };
 
 exports.delete = (req, res, next) => {
-    const id = req.params.id
-    res.status(200).send(req.body);
+    productRepository
+        .destroy(req.params.deleteId)
+        .then(x => {
+            res.status(200).send({
+                message: 'Produto removido com sucesso',
+                id: req.params.deleteId
+            })
+        })
+        .catch(e => {
+            res.status(400).send({
+                message: 'Ops, deu ruim' + e.toString()
+            })
+        });
 };

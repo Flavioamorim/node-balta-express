@@ -5,9 +5,10 @@ const controller = require('../controllers/product-controller')
 
 router.get('/:slug', controller.getBySlug);
 router.get('/id/:id', controller.getById);
+router.get('/tag/:tag', controller.getByTag);
 router.get('/', controller.get);
 router.post('/', controller.post);
-router.delete('/:id', controller.delete);
+router.delete('/:deleteId', controller.delete);
 router.put('/:test', controller.put);
 
 

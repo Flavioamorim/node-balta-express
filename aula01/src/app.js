@@ -5,10 +5,7 @@ const mongoose = require('mongoose')
 const app = express()
 const router = express.Router()
 
-mongoose.connect('mongodb+srv://flaviotest:@flaviotest.zxrwz.mongodb.net/?retryWrites=true&w=majority')
-
-// carregar models
-// const Product = require('./models/product')
+mongoose.connect('mongodb+srv://flaviotest:galao01@flaviotest.zxrwz.mongodb.net/flaviotest?retryWrites=true&w=majority')
 
 // carregar rotas
 const indexRoutes = require('./routes/index')
@@ -19,6 +16,5 @@ app.use(bodyParser.urlencoded({extended:false}))
 
 app.use('/', indexRoutes);
 app.use('/products', productRoutes);
-
 
 module.exports = app
